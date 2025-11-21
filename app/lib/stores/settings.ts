@@ -23,8 +23,8 @@ export interface Shortcuts {
   toggleTerminal: Shortcut;
 }
 
-export const URL_CONFIGURABLE_PROVIDERS = ['Ollama', 'LMStudio', 'OpenAILike'];
-export const LOCAL_PROVIDERS = ['OpenAILike', 'LMStudio', 'Ollama'];
+export const URL_CONFIGURABLE_PROVIDERS = ['OpenAILike'];
+export const LOCAL_PROVIDERS = ['OpenAILike'];
 
 export type ProviderSetting = Record<string, IProviderConfig>;
 
@@ -65,8 +65,8 @@ const getInitialProviderSettings = (): ProviderSetting => {
     initialSettings[provider.name] = {
       ...provider,
       settings: {
-        // Local providers should be disabled by default
-        enabled: !LOCAL_PROVIDERS.includes(provider.name),
+        // Enable only OpenAILike
+        enabled: provider.name === 'OpenAILike',
       },
     };
   });
