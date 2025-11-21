@@ -13,6 +13,28 @@ export default defineConfig((config) => {
     define: {
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
     },
+    server: {
+      host: true,
+      allowedHosts: true,
+      cors: true,
+      onBeforeSetupMiddleware: (server: ViteDevServer) => {
+        server.middlewares.use((req, res, next) => {
+          // https://webcontainers.io/guides/configuring-headers
+          res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp');
+          res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
+          // https://github.com/stackblitz-labs/bolt.diy/issues/540#issuecomment-2551704197
+          // res.setHeader('Access-Control-Allow-Origin', '*');
+          // res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+          // res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+          // if (req.method === 'OPTIONS') {
+          //   res.writeHead(204);
+          //   res.end();
+          //   return;
+          // }
+          next();
+        });
+      },
+    },
     build: {
       target: 'esnext',
     },
