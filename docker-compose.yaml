@@ -1,6 +1,6 @@
 services:
   bolt:
-    image: bolt-ai:gwdg
+    image: bolt-ai:chh1107
     container_name: bolt
     build:
       context: .
@@ -9,7 +9,7 @@ services:
     environment:
       - NODE_ENV=development
       - VITE_HMR_PROTOCOL=ws
-      - VITE_HMR_HOST=localhost
+      - VITE_HMR_HOST=${BOLT_HOST:-localhost}
       - VITE_HMR_PORT=5173
       - CHOKIDAR_USEPOLLING=true
       - WATCHPACK_POLLING=true
@@ -21,7 +21,7 @@ services:
     extra_hosts:
       - 'host.docker.internal:host-gateway'
     ports:
-      - '15173:5173'
+      - '5173:5173'
     networks:
       bolt:
 
@@ -31,5 +31,5 @@ networks:
     driver: bridge
     # Adjust the MTU value according to your physical system setup. Default is 1500.
     # A wrong value will lead to weird connection issues (e.g., apt cannot retrieve packages and so on).
-    driver_opts:
-      com.docker.network.driver.mtu: 1450
+    # driver_opts:
+    #   com.docker.network.driver.mtu: 1450
